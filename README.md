@@ -43,6 +43,18 @@ GAIN_MODEL_NAME=<Nome da tabela de ganhos>
 EXPENSE_MODEL_NAME=<Nome da tabela de gastos>
 CATEGORY_MODEL_NAME=<Nome da tabela de categoria>
 
+# Subir as tabelas
+$ npm run db:migrate:up
+
+# Subir alguns dados
+$ npm run db:seed:up
+
+# ATENÇÃO: Utilizar apenas se for preciso deletar as tabelas
+$ npm run db:migrate:down
+
+# ATENÇÃO: Utilizar apenas se for preciso deletar os dados
+$ npm run db:seed:down
+
 # Executar o servidor
 $ npm start
 ```

@@ -7,6 +7,7 @@ export const dbConfig = new sequelize(
     process.env.DB_PWD,
     {
         dialect: process.env.DB_DIALECT,
-        host: process.env.DB_HOST
+        host: process.env.DB_HOST,
+        logging: false
     }
 )

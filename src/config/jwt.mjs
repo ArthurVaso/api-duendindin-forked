@@ -6,9 +6,7 @@ export const PRIVATE_KEY = process.env.SECRET
 export const PRIVATE_REFRESH_KEY = process.env.REFRESH_SECRET
 
 export const authentication = (userId) => {
-    const jwt = jsonwebtoken.sign({id: userId}, PRIVATE_KEY, {
-        expiresIn: 30
-    })
+    const jwt = jsonwebtoken.sign({id: userId}, PRIVATE_KEY)
 
     const refreshToken = jsonwebtoken.sign({id: userId + (Math.random() * 100)}, PRIVATE_REFRESH_KEY)
 
