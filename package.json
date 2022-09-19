@@ -6,7 +6,11 @@
   "author": "Alexandre-Arauj <alexandrearaujo2299@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "nodemon index.mjs",
+    "db:migrate:up": "npx sequelize-cli db:migrate",
+    "db:migrate:down": "npx sequelize-cli db:migrate:undo:all",
+    "db:seed:up": "npx sequelize-cli db:seed:all",
+    "db:seed:down": "npx sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
@@ -15,6 +19,7 @@
     "sequelize": "^6.21.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "sequelize-cli": "^6.4.1"
   }
 }
