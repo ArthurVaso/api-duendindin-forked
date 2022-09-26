@@ -3,7 +3,7 @@ import {createUser} from "../controller/UserController.mjs";
 const router = express.Router();
 
 
-router.post('/user', createUser);
+router.post('/', createUser);
 
 export const userRoutes = router
 
