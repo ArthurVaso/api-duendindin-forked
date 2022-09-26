@@ -10,6 +10,7 @@ import { Setting } from './src/model/Setting.mjs'
 import { Gain } from './src/model/Gain.mjs'
 import { Expense } from './src/model/Expense.mjs'
 import { Category } from './src/model/Category.mjs'
+import { authentication } from './src/config/jwt.mjs'
 
 const app = express()
 const port = process.env.APP_PORT
@@ -22,10 +23,15 @@ app.use(
 )
 
 app.use(userRoutes)
-app.use(categoryRoutes)
+app.use('/category', categoryRoutes)
 app.use(expenseRoutes)
 app.use(gainRoutes)
 app.use(settingRoutes)
+
+app.get('/auth', (req, res) => {
+    const jwt = authentication(1)
+    return res.json({jwt})
+})
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
