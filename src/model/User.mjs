@@ -33,3 +33,4 @@ export const User = dbConfig.define(
     },
     { freezeTableName: true, timestamps: false }
 )
+
