@@ -24,7 +24,7 @@ app.use(
 app.use("/user",userRoutes)
 app.use(categoryRoutes)
 app.use(expenseRoutes)
-app.use(gainRoutes)
+app.use('/gain',gainRoutes)
 app.use(settingRoutes)
 
 app.use((err, req, res, next) => {
@@ -36,7 +36,9 @@ app.use((err, req, res, next) => {
 
 Category.belongsTo(User)
 Setting.belongsTo(User)
-Gain.belongsTo(Category)
+Gain.belongsTo(Category, { 
+    foreignKey: 'categoriaID'
+})
 Expense.belongsTo(Category)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
