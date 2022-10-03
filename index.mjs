@@ -28,11 +28,6 @@ app.use(expenseRoutes)
 app.use(gainRoutes)
 app.use(settingRoutes)
 
-app.get('/auth', (req, res) => {
-    const jwt = authentication(1)
-    return res.json({jwt})
-})
-
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     console.error(err.message, err.stack);
