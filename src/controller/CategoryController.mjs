@@ -89,6 +89,11 @@ export const deleteCategory = async (req, res) => {
             }
         })
 
+        if(category === null){
+            return res.status(404).json({ mensagem: "Não encontrado"})
+        }
+        
+
         const earnings = await Gain.findAll({
             where: {
                 categoriaID: category.id
@@ -107,7 +112,9 @@ export const deleteCategory = async (req, res) => {
 
         await category.destroy()
 
-        return result === 1 ? res.status(200).json({ mensagem: 'Categoria deletada com sucesso.' }) : res.status(401).json({ mensagem: 'Não foi possivel deletar a categoria.' })
+        console.log(category);
+
+        return res.status(200).json({ mensagem: 'Categoria deletada com sucesso.' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }

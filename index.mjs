@@ -38,8 +38,14 @@ app.use((err, req, res, next) => {
 Category.belongsTo(User, {
     foreignKey: 'usuarioID'
 })
-Setting.belongsTo(User)
-Gain.belongsTo(Category)
-Expense.belongsTo(Category)
+Setting.belongsTo(User, {
+    foreignKey: 'usuarioID'
+})
+Gain.belongsTo(Category, {
+    foreignKey: 'categoriaID'
+})
+Expense.belongsTo(Category, {
+    foreignKey: 'categoriaID'
+})
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
