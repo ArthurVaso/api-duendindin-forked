@@ -40,7 +40,9 @@ app.use((err, req, res, next) => {
     return;
 });
 
-Category.belongsTo(User)
+Category.belongsTo(User, {
+    foreignKey: 'usuarioID'
+})
 Setting.belongsTo(User)
 Gain.belongsTo(Category)
 Expense.belongsTo(Category)
