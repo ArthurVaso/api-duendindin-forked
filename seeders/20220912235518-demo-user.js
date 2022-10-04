@@ -8,7 +8,8 @@ module.exports = {
       senha: '123456',
       data_nascimento: new Date(),
       cidade: 'São Paulo',
-      estado: 'SP'
+      estado: 'SP',
+      ativo: true
     }]);
   },
 
