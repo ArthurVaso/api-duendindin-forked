@@ -11,7 +11,11 @@ export const createUser = async (req, res) => {
             user, 
             jwt
         });
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
+    }catch(error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(500).json({ mensagemAviso: "Email já está em uso" });
+        }  else {
+            return res.status(500).json({ error: error.message });
+        }
     }
 }
