@@ -11,10 +11,10 @@ export const createUser = async (req, res) => {
             user,
             jwt
         });
-    }catch(error) {
+    } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
             return res.status(500).json({ mensagemAviso: "Email já está em uso" });
-        }  else {
+        } else {
             return res.status(500).json({ error: error.message });
         }
     }
@@ -25,17 +25,32 @@ export const inactivatedUser = async (req, res) => {
         const [updatedRows] = await User.update({
             ativo: false,
         },
-       {
+            {
                 where: {
                     id: req.params.id
                 }
-        })
+            })
         if (updatedRows) {
             res.status(200).send();
         } else {
-            return res.status(404).send({ "Mensagem de Erro" : "ID inválido" });
+            return res.status(404).send({ "Mensagem de Erro": "ID inválido" });
         }
     } catch (error) {
         return res.status(500).json({ error: error.message });
+    }
+}
+
+export const updateUser = async (req, res) => {
+    try {
+        const user = await User.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        })
+
+        return user >= 1 ? res.status(200).json({ mensagem: 'Usuário atualizado com sucesso.' }) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar o usuário' })
+
+    } catch (err) {
+        return res.status(500).json({ mensagem: err.message })
     }
 }
