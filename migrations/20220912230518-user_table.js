@@ -27,6 +27,9 @@ module.exports = {
       },
       estado: {
         type: Sequelize.DataTypes.CHAR(4)
+      },
+      ativo: {
+        type: Sequelize.DataTypes.BOOLEAN
       }
     })
   },

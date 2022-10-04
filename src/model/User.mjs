@@ -29,6 +29,9 @@ export const User = dbConfig.define(
         },
         estado: {
             type: DataTypes.CHAR(4)
+        },
+        ativo: {
+            type: DataTypes.BOOLEAN
         }
     },
     { freezeTableName: true, timestamps: false }
