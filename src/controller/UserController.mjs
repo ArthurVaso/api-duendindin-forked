@@ -16,18 +16,21 @@ export const createUser = async (req, res) => {
     }
 }
 
-export const removeUserById = async (req, res) => {
+export const inactivatedUser = async (req, res) => {
     try {
-        const userDeleted = await User.destroy({
-            where: {
-                id: req.params.id
-            }
-        }).then(count => {
-            if (!count) {
-                return res.status(404).send({ error: 'No user' });
-            }
+        const [updatedRows] = await User.update({
+            ativo: false,
+        },
+       {
+                where: {
+                    id: req.params.id
+                }
+        })
+        if (updatedRows) {
             res.status(200).send();
-        });
+        } else {
+            return res.status(404).send({ "Mensagem de Erro" : "ID inválido" });
+        }
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
