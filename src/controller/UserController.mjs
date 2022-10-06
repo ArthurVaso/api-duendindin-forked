@@ -111,11 +111,12 @@ export const login = async (req, res) => {
         if(!user){
             return res.send("Email inválido!")    
         }
-        await User.update({
-            ativo: true,
-        },
-        { where: { email: email }})
-
+        if(!user.ativo){
+            await User.update({
+                ativo: true,
+            },
+            { where: { email: email }})
+        }
         const isValid = await bcrypt.compare(senha.toString(), user.senha.toString())
         if(!isValid){
             return res.status(500).json({ message: "Senha inválida!" }) 
