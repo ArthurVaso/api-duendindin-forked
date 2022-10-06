@@ -2,8 +2,16 @@ import { User } from "../model/User.mjs"
 import { authentication } from "../config/jwt.mjs"
 import { createSetting } from "../controller/SettingController.mjs"
 
+import bcrypt from 'bcrypt';
+
 export const createUser = async (req, res) => {
     try {
+
+        const password = req.body.senha;
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hashSync(password, salt);
+
+        req.body.senha = hash;
         const user = await User.create(req.body);
         const jwt = authentication(user.id)
         createSetting(user.id)
@@ -42,6 +50,13 @@ export const inactivatedUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
+        if(req.body.senha !== undefined){
+            const password = req.body.senha;
+            const salt = await bcrypt.genSaltSync(10);
+            const hash = await bcrypt.hashSync(password.toString(), salt);
+    
+            req.body.senha = hash;
+        }
         const user = await User.update(req.body, {
             where: {
                 id: req.params.id
@@ -70,10 +85,49 @@ export const getUserById = async (req, res) => {
 export const getAllUsers = async (req, res) => {
 
     try {
-        const user = await User.findAll()
+        const user = await User.findAll({
+            where: {
+              ativo: true
+            },
+            attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
+          });
         return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ message: "Não foram encontrados Usuários" })
     } catch (err) {
         return res.status(500).json({ message: err.message })
     }
 
+}
+
+export const login = async (req, res) => {
+    try {
+        const {email, senha} = req.body;
+
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+
+        if(!user){
+            return res.send("Email inválido!")    
+        }
+        const isValid = await bcrypt.compare(senha.toString(), user.senha.toString())
+        if(!isValid){
+            return res.status(500).json({ message: "Senha inválida!" }) 
+        }
+        
+        if(!user.ativo){
+            await User.update({
+                ativo: true,
+            },
+            { where: { email: email }})
+        }
+        const jwt = authentication(user.id)
+        createSetting(user.id)
+        return res.status(200).json({
+            jwt
+        });
+    } catch (err){
+        return res.status(500).json({ message: err.message })
+    }
 }

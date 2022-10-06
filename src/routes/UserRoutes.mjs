@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../config/jwt.mjs";
-import {createUser, inactivatedUser, updateUser, getUserById, getAllUsers} from "../controller/UserController.mjs";
+import {createUser, inactivatedUser, updateUser, getUserById, getAllUsers, login} from "../controller/UserController.mjs";
 const router = express.Router();
 
 
@@ -9,6 +9,7 @@ router.patch('/:id', verifyToken, inactivatedUser);
 router.put('/:id', verifyToken, updateUser);
 router.get('/getAll', verifyToken, getAllUsers);
 router.get('/:id', verifyToken, getUserById);
+router.post('/login', login);
 
 export const userRoutes = router
 

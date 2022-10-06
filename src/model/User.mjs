@@ -19,7 +19,7 @@ export const User = dbConfig.define(
             unique: true
         },
         senha: {
-            type: DataTypes.STRING(50)
+            type: DataTypes.STRING(256)
         },
         data_nascimento: {
             type: DataTypes.DATEONLY,
