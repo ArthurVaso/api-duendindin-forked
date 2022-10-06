@@ -17,7 +17,7 @@ module.exports = {
         unique: true
       },
       senha: {
-        type: Sequelize.DataTypes.STRING(50)
+        type: Sequelize.DataTypes.STRING(256)
       },
       data_nascimento: {
         type: Sequelize.DataTypes.DATEONLY,
