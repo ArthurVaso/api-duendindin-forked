@@ -150,3 +150,32 @@ export const getUsersWithTheirsSettingsById = async (req, res) => {
         return res.status(500).json({ message: err.message })
     }
 }
+
+export const updateUserPassword = async (req, res) => {
+
+    try {
+        const {email, nova_senha, senha_atual} = req.body;
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+        const isValid = await bcrypt.compare(senha_atual, user.senha.toString())
+        if(!isValid){
+            return res.status(500).json({ message: "Senha inválida!" }) 
+        }
+
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hashSync(nova_senha.toString(), salt);
+
+        req.body = {"senha": hash}
+        const userUpdated = await User.update(req.body, {
+            where: {
+                email: email
+            }
+        })
+        return userUpdated >= 1 ? res.status(200).json({ mensagem: 'Senha atualizada com sucesso.' }) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar a senha' })
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+}
