@@ -1,4 +1,5 @@
 import { User } from "../model/User.mjs"
+import { Setting } from "../model/Setting.mjs"
 import { authentication } from "../config/jwt.mjs"
 import { createSetting } from "../controller/SettingController.mjs"
 
@@ -10,13 +11,15 @@ export const createUser = async (req, res) => {
         const password = req.body.senha;
         const salt = await bcrypt.genSaltSync(10);
         const hash = await bcrypt.hashSync(password, salt);
-
         req.body.senha = hash;
+
         const user = await User.create(req.body);
         const jwt = authentication(user.id)
-        createSetting(user.id)
+
+        const settingResponse = await createSetting(user.id, req.body.renda_fixa)
         return res.status(201).json({
             user,
+            settingResponse,
             jwt
         });
     } catch (error) {
@@ -128,6 +131,22 @@ export const login = async (req, res) => {
             jwt
         });
     } catch (err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+export const getUsersWithTheirsSettingsById = async (req, res) => {
+
+    try {
+        const user = await User.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: Setting,
+            attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
+        })
+        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ message: "Usuário não encontrado" })
+    } catch (err) {
         return res.status(500).json({ message: err.message })
     }
 }
