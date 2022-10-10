@@ -25,7 +25,7 @@ app.use("/user",userRoutes)
 app.use(categoryRoutes)
 app.use(expenseRoutes)
 app.use(gainRoutes)
-app.use(settingRoutes)
+app.use("/setting", settingRoutes)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
