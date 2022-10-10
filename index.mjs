@@ -24,7 +24,7 @@ app.use(
 
 app.use("/user",userRoutes)
 app.use('/category', categoryRoutes)
-app.use(expenseRoutes)
+app.use('/expense',expenseRoutes)
 app.use('/gain',gainRoutes)
 app.use(settingRoutes)
 
