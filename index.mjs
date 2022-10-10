@@ -35,6 +35,7 @@ app.use((err, req, res, next) => {
 });
 
 Category.belongsTo(User)
+User.hasOne(Setting)
 Setting.belongsTo(User)
 Gain.belongsTo(Category, { 
     foreignKey: 'categoriaID'
