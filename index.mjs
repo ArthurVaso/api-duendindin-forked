@@ -10,6 +10,7 @@ import { Setting } from './src/model/Setting.mjs'
 import { Gain } from './src/model/Gain.mjs'
 import { Expense } from './src/model/Expense.mjs'
 import { Category } from './src/model/Category.mjs'
+import { authentication } from './src/config/jwt.mjs'
 
 const app = express()
 const port = process.env.APP_PORT
@@ -22,7 +23,7 @@ app.use(
 )
 
 app.use("/user",userRoutes)
-app.use(categoryRoutes)
+app.use('/category', categoryRoutes)
 app.use(expenseRoutes)
 app.use(gainRoutes)
 app.use(settingRoutes)
@@ -34,10 +35,17 @@ app.use((err, req, res, next) => {
     return;
 });
 
-Category.belongsTo(User)
-User.hasOne(Setting)
-Setting.belongsTo(User)
-Gain.belongsTo(Category)
-Expense.belongsTo(Category)
+Category.belongsTo(User, {
+    foreignKey: 'usuarioID'
+})
+Setting.belongsTo(User, {
+    foreignKey: 'usuarioID'
+})
+Gain.belongsTo(Category, {
+    foreignKey: 'categoriaID'
+})
+Expense.belongsTo(Category, {
+    foreignKey: 'categoriaID'
+})
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
