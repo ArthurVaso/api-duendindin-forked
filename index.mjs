@@ -10,17 +10,20 @@ import { Setting } from './src/model/Setting.mjs'
 import { Gain } from './src/model/Gain.mjs'
 import { Expense } from './src/model/Expense.mjs'
 import { Category } from './src/model/Category.mjs'
-import { authentication } from './src/config/jwt.mjs'
+import cors from 'cors';
 
 const app = express()
 const port = process.env.APP_PORT
 
 app.use(express.json())
+
 app.use(
     express.urlencoded({
         extended: true
     })
 )
+
+app.use(cors())
 
 app.use("/user",userRoutes)
 app.use('/category', categoryRoutes)
