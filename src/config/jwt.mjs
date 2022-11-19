@@ -2,7 +2,7 @@
 import 'dotenv/config'
 import jsonwebtoken from "jsonwebtoken";
 
-export const PRIVATE_KEY = process.env.SECRET
+export const PRIVATE_KEY = 'dev'
 
 export const authentication = (userId) => {
     const jwt = jsonwebtoken.sign({id: userId}, PRIVATE_KEY)

@@ -128,7 +128,8 @@ export const login = async (req, res) => {
         const jwt = authentication(user.id)
         createSetting(user.id)
         return res.status(200).json({
-            jwt
+            jwt,
+            user
         });
     } catch (err){
         return res.status(500).json({ message: err.message })

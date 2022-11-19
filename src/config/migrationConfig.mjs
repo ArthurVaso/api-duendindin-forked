@@ -3,12 +3,12 @@ import 'dotenv/config'
 
 export default {
   development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    username: 'root',
+    password: 'root',
+    database: 'duendindindb',
+    host: 'localhost',
     port: 3306,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'mysql',
     dialectOptions: {
       bigNumberStrings: true
     }

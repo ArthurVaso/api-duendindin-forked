@@ -3,7 +3,7 @@ import { dbConfig } from "../config/db.mjs"
 import 'dotenv/config'
 
 export const Expense = dbConfig.define(
-    process.env.EXPENSE_MODEL_NAME,
+    "gasto",
     {
         id: {
             primaryKey: true,
@@ -18,10 +18,7 @@ export const Expense = dbConfig.define(
         nome: {
             type: DataTypes.STRING(30)
         },
-        recorrencia: {
-            type: DataTypes.BOOLEAN
-        },
-        vencimento: {
+        data: {
             type: DataTypes.DATEONLY
         },
         valor: {
@@ -30,8 +27,11 @@ export const Expense = dbConfig.define(
         descricao: {
             type: DataTypes.STRING(50)
         },
-        data_pagamento: {
-            type: DataTypes.DATEONLY
+        recorrente: {
+            type: DataTypes.BOOLEAN
+        },
+        tipo: {
+            type: DataTypes.STRING(3)
         }
     },
     { freezeTableName: true, timestamps: false }

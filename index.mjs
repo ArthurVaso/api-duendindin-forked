@@ -13,7 +13,7 @@ import { Category } from './src/model/Category.mjs'
 import cors from 'cors';
 
 const app = express()
-const port = process.env.APP_PORT
+const port = 3000
 
 app.use(express.json())
 

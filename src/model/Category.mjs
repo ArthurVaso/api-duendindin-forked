@@ -3,7 +3,7 @@ import { dbConfig } from "../config/db.mjs"
 import 'dotenv/config'
 
 export const Category = dbConfig.define(
-    process.env.CATEGORY_MODEL_NAME,
+    "categoria",
     {
         id: {
             primaryKey: true,
@@ -21,7 +21,7 @@ export const Category = dbConfig.define(
         descricao: {
             type: DataTypes.STRING(50)
         },
-        gasto_fixo: {
+        /*gasto_fixo: {
             type: DataTypes.DECIMAL(10, 2)
         },
         ganho_fixo: {
@@ -35,7 +35,7 @@ export const Category = dbConfig.define(
         },
         valor: {
             type: DataTypes.DECIMAL(10, 2)
-        }
+        }*/
     },
     { freezeTableName: true, timestamps: false }
 )
