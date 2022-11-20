@@ -7,6 +7,7 @@ module.exports = {
       email: 'jorge@email.com',
       senha: '123456',
       data_nascimento: new Date(),
+      cep:"12345-678",
       cidade: 'São Paulo',
       estado: 'SP',
       ativo: true
