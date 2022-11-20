@@ -16,20 +16,31 @@ export const getAllExpenses = async (req, res) => {
 
 export const getExpense = async (req, res) => {
     try {
+
+        if(!req.params['id']) {
+            return res.status(404).json({ mensagem: 'O código do vencimento é obrigatório!' });
+        }
+
         const expense = await Expense.findOne({
             where: {
                 id: req.params.id
             }
         })
 
-        return expense !== null ? res.status(200).json({ gasto: expense }) : res.status(404).json({ mensagem: "Não encontrado" })
+        return expense !== null ? res.status(200).json({ gasto: expense }) : res.status(404).json({ mensagem: "Vencimento não encontrado!" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
 }
 
 export const getAllExpensesFromCategory = async (req, res) => {
+
     try {
+
+        if(!req.params['idCategoria']) {
+            return res.status(404).json({ mensagem: 'O código da categoria é obrigatório!' });
+        }
+
         const expenses = await Expense.findAll({
             where: {
                 categoriaID: req.params.idCategoria
@@ -44,6 +55,15 @@ export const getAllExpensesFromCategory = async (req, res) => {
 
 export const getExpenseFromCategory = async (req, res) => {
     try {
+
+        if(!req.params['id']) {
+            return res.status(404).json({ mensagem: 'O código do vencimento é obrigatório!' });
+        }
+
+        if(!req.params['idCategoria']) {
+            return res.status(404).json({ mensagem: 'O código da categoria é obrigatório!' });
+        }
+
         const expense = await Expense.findOne({
             where: {
                 id: req.params.id,
@@ -57,15 +77,84 @@ export const getExpenseFromCategory = async (req, res) => {
     }
 }
 
+export const getAllExpensesFromUser = async (req, res) => {
+    try {
+
+        if(!req.params['idUsuario']) {
+            return res.status(404).json({ mensagem: 'O usuário precisa estar logado para obter os vencimentos!' });
+        }
+
+        const expenses = await Expense.findAll({
+            include: [{
+                model: Category,
+                where: {
+                    usuarioID: req.params['idUsuario']
+                }
+            }]
+        })
+
+        const groupedExpenses = expenses.reduce((groups, item) => {
+            const group = (groups[item.data] || []);
+            group.push(item);
+            groups[item.data] = group;
+            return groups;
+          }, {});
+
+        const mapReturn = Object.entries(groupedExpenses).map(item => {
+            return {
+                data: item[0],
+                itens: item[1]
+            }
+        });
+
+        return expenses !== null ? res.status(200).json({ gastos: mapReturn }) : res.status(404).json({ mensagem: 'Não encontrado' })
+    } catch (err) {
+        return res.status(500).json({ mensagem: err.message })
+    }
+}
+
 export const updateExpense = async (req, res) => {
     try {
+
+        if(!req.params['id']) {
+            return res.status(404).json({ mensagem: 'O código do vencimento é obrigatório!' });
+        }
+
         const expense = await Expense.findOne({
             where: {
                 id: req.params.id
             }
         })
 
-        verifyIsNull(res, expense)
+        if(!expense) {
+            return res.status(404).json({ mensagem: 'Vencimento não encontrado' });
+        }
+
+        if(!req.body['nome']) {
+            return res.status(404).json({ mensagem: 'O nome é obrigatório!' });
+        }
+
+        if(!req.body['categoriaID']) {
+            return res.status(404).json({ mensagem: 'A categoria é obrigatória!' });
+        }
+
+        const category = await Category.findOne({
+            where: {
+                id: req.body.categoriaID
+            }
+        })
+        
+        if(!category) {
+            return res.status(404).json({ mensagem: 'A categoria informada não existe!' });
+        }
+
+        if(!req.body.data) {
+            return res.status(404).json({ mensagem: 'A data de vencimento é obrigatória!' });
+        }
+
+        if(!req.body.valor) {
+            return res.status(404).json({ mensagem: 'O valor é obrigatório!' });
+        }
 
         if (expense.valor !== req.body.valor) {
             const category = await Category.findOne({
@@ -85,7 +174,7 @@ export const updateExpense = async (req, res) => {
 
         await expense.update(req.body)
 
-        return res.status(200).json({ mensagem: 'Ganho atualaizado com sucesso' })
+        return res.status(200).json({ mensagem: 'Vencimento atualizado com sucesso!' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -93,13 +182,20 @@ export const updateExpense = async (req, res) => {
 
 export const deleteExpense = async (req, res) => {
     try {
+
+        if(!req.params['id']) {
+            return res.status(404).json({ mensagem: 'O código do vencimento é obrigatório!' });
+        }
+
         const expense = await Expense.findOne({
             where: {
                 id: req.params.id
             }
         })
 
-        verifyIsNull(res, expense)
+        if(!expense){
+            return res.status(404).json({ mensagem: "Vencimento não encontrado!"})
+        }
 
         const category = await Category.findOne({
             where: {
@@ -117,7 +213,7 @@ export const deleteExpense = async (req, res) => {
             valor: calc.toFixed(2)
         })
 
-        return res.status(200).json({ mensagem: 'Ganho deletado com sucesso' })
+        return res.status(200).json({ mensagem: 'Vencimento excluído com sucesso' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -125,12 +221,32 @@ export const deleteExpense = async (req, res) => {
 
 export const createExpense = async (req, res) => {
     try {
+
+        if(!req.body['nome']) {
+            return res.status(404).json({ mensagem: 'O nome é obrigatório!' });
+        }
+
+        if(!req.body['categoriaID']) {
+            return res.status(404).json({ mensagem: 'A categoria é obrigatória!' });
+        }
+
         const category = await Category.findOne({
             where: {
                 id: req.body.categoriaID
             }
         })
-        verifyIsNull(res, category)
+        
+        if(!category) {
+            return res.status(404).json({ mensagem: 'A categoria informada não existe!' });
+        }
+
+        if(!req.body.data) {
+            return res.status(404).json({ mensagem: 'A data de vencimento é obrigatória!' });
+        }
+
+        if(!req.body.valor) {
+            return res.status(404).json({ mensagem: 'O valor é obrigatório!' });
+        }
 
         const expense = await Expense.create(req.body)
 

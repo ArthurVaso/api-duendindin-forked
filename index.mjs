@@ -23,7 +23,9 @@ app.use(
     })
 )
 
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:4200'
+}))
 
 app.use("/user",userRoutes)
 app.use('/category', categoryRoutes)
@@ -41,6 +43,15 @@ app.use((err, req, res, next) => {
 Category.belongsTo(User, {
     foreignKey: 'usuarioID'
 })
+
+Category.hasMany(Gain, {
+    foreignKey: 'id'
+})
+
+Category.hasMany(Expense, {
+    foreignKey: 'id'
+})
+
 Setting.belongsTo(User, {
     foreignKey: 'usuarioID'
 })
