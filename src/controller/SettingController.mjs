@@ -32,9 +32,9 @@ export const updateSetting = async (req, res) => {
 
         await setting.update(req.body)
 
-        return res.status(200).json({ message: 'Configuração atualaizada com sucesso' })
+        return res.status(200).json({ mensagem: 'Configuração atualaizada com sucesso' })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }
 
@@ -46,9 +46,9 @@ export const getAllSettingFromUser = async (req, res) => {
             }
         })
 
-        return settings !== null ? res.status(200).json({ configuracoes: settings }) : res.status(404).json({ message: 'Não encontrado' })
+        return settings !== null ? res.status(200).json({ configuracoes: settings }) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }
 
@@ -56,8 +56,8 @@ export const getAllSettings = async (req, res) => {
     try {
         const allSettings = await Setting.findAll()
 
-        return allSettings !== null ? res.status(200).json({ configuracoes: allSettings }) : res.status(404).json({ message: "Não encontrado" })
+        return allSettings !== null ? res.status(200).json({ configuracoes: allSettings }) : res.status(404).json({ mensagem: "Não encontrado" })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }

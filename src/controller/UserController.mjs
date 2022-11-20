@@ -79,9 +79,9 @@ export const getUserById = async (req, res) => {
                 id: req.params.id
             }
         })
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ message: "Usuário não encontrado" })
+        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Usuário não encontrado" })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 
 }
@@ -94,9 +94,9 @@ export const getAllUsers = async (req, res) => {
             },
             attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
           });
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ message: "Não foram encontrados Usuários" })
+        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Não foram encontrados Usuários" })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 
 }
@@ -112,11 +112,11 @@ export const login = async (req, res) => {
         })
 
         if(!user){
-            return res.send("Email inválido!")    
+            return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" })   
         }
         const isValid = await bcrypt.compare(senha.toString(), user.senha.toString())
         if(!isValid){
-            return res.status(500).json({ message: "Senha inválida!" }) 
+            return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" }) 
         }
         
         if(!user.ativo){
@@ -132,7 +132,7 @@ export const login = async (req, res) => {
             user
         });
     } catch (err){
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }
 
@@ -146,9 +146,9 @@ export const getUsersWithTheirsSettingsById = async (req, res) => {
             include: Setting,
             attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
         })
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ message: "Usuário não encontrado" })
+        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Usuário não encontrado" })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }
 
@@ -163,7 +163,7 @@ export const updateUserPassword = async (req, res) => {
         })
         const isValid = await bcrypt.compare(senha_atual, user.senha.toString())
         if(!isValid){
-            return res.status(500).json({ message: "Senha inválida!" }) 
+            return res.status(500).json({ mensagem: "Senha inválida!" }) 
         }
 
         const salt = await bcrypt.genSaltSync(10);
@@ -177,6 +177,6 @@ export const updateUserPassword = async (req, res) => {
         })
         return userUpdated >= 1 ? res.status(200).json({ mensagem: 'Senha atualizada com sucesso.' }) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar a senha' })
     } catch (err) {
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ mensagem: err.message })
     }
 }
