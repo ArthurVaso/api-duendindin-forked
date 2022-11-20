@@ -24,6 +24,9 @@ export const User = dbConfig.define(
         data_nascimento: {
             type: DataTypes.DATEONLY,
         },
+        cep: {
+            type: DataTypes.STRING(10)
+        },
         cidade: {
             type: DataTypes.STRING(50)
         },
