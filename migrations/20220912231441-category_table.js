@@ -18,22 +18,22 @@ module.exports = {
       },
       descricao: {
         type: Sequelize.DataTypes.STRING(50)
-      },
-      gasto_fixo: {
-        type: Sequelize.DataTypes.DECIMAL(10, 2)
-      },
-      ganho_fixo: {
-        type: Sequelize.DataTypes.DECIMAL(10, 2)
-      },
-      gasto_variavel: {
-        type: Sequelize.DataTypes.DECIMAL(10, 2)
-      },
-      ganho_variavel: {
-        type: Sequelize.DataTypes.DECIMAL(10, 2)
-      },
-      valor: {
-        type: Sequelize.DataTypes.DECIMAL(10, 2)
       }
+      // gasto_fixo: {
+      //   type: Sequelize.DataTypes.DECIMAL(10, 2)
+      // },
+      // ganho_fixo: {
+      //   type: Sequelize.DataTypes.DECIMAL(10, 2)
+      // },
+      // gasto_variavel: {
+      //   type: Sequelize.DataTypes.DECIMAL(10, 2)
+      // },
+      // ganho_variavel: {
+      //   type: Sequelize.DataTypes.DECIMAL(10, 2)
+      // },
+      // valor: {
+      //   type: Sequelize.DataTypes.DECIMAL(10, 2)
+      // }
     })
   },
 

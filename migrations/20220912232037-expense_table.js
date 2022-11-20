@@ -16,10 +16,7 @@ module.exports = {
       nome: {
         type: Sequelize.DataTypes.STRING(30)
       },
-      recorrencia: {
-        type: Sequelize.DataTypes.BOOLEAN
-      },
-      vencimento: {
+      data: {
         type: Sequelize.DataTypes.DATEONLY
       },
       valor: {
@@ -28,8 +25,11 @@ module.exports = {
       descricao: {
         type: Sequelize.DataTypes.STRING(50)
       },
-      data_pagamento: {
-        type: Sequelize.DataTypes.DATEONLY
+      recorrente: {
+        type: Sequelize.DataTypes.BOOLEAN
+      },
+      tipo: {
+        type: Sequelize.DataTypes.STRING(3)
       }
     })
   },

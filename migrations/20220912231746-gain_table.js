@@ -8,26 +8,29 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
-    },
-    categoriaID: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false
-    },
-    nome: {
+      },
+      categoriaID: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false
+      },
+      nome: {
         type: Sequelize.DataTypes.STRING(30)
-    },
-    data: {
+      },
+      data: {
         type: Sequelize.DataTypes.DATEONLY
-    },
-    valor: {
+      },
+      valor: {
         type: Sequelize.DataTypes.DECIMAL(10, 2)
-    },
-    descricao: {
+      },
+      descricao: {
         type: Sequelize.DataTypes.STRING(50)
-    },
-    recorrencia: {
+      },
+      recorrente: {
         type: Sequelize.DataTypes.BOOLEAN
-    }
+      },
+      tipo: {
+        type: Sequelize.DataTypes.STRING(3)
+      }
     })
   },
 
