@@ -116,7 +116,7 @@ export const updateCategory = async (req, res) => {
             }
         })
 
-        return category >= 1 ? res.status(200).json({ mensagem: 'Categoria atualizada com sucesso!' }) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar a categoria!'})
+        return category >= 1 ? res.status(200).json({ mensagem: 'Categoria atualizada com sucesso!' }) : res.status(500).json({ mensagem: 'Não houve alterações no registro!'})
 
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
