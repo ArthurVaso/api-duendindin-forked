@@ -2,12 +2,12 @@ import sequelize from "sequelize";
 import 'dotenv/config'
 
 export const dbConfig = new sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PWD,
+    'duendindindb',
+    'root',
+    'root',
     {
-        dialect: process.env.DB_DIALECT,
-        host: process.env.DB_HOST,
+        dialect: 'mysql',
+        host: 'localhost',
         logging: false
     }
 )

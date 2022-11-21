@@ -3,7 +3,7 @@ import { dbConfig } from "../config/db.mjs"
 import 'dotenv/config'
 
 export const User = dbConfig.define(
-    process.env.USER_MODEL_NAME,
+    "usuario",
     {
         id: {
             primaryKey: true,
@@ -23,6 +23,9 @@ export const User = dbConfig.define(
         },
         data_nascimento: {
             type: DataTypes.DATEONLY,
+        },
+        cep: {
+            type: DataTypes.STRING(10)
         },
         cidade: {
             type: DataTypes.STRING(50)

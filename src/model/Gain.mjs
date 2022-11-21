@@ -3,7 +3,7 @@ import { dbConfig } from "../config/db.mjs"
 import 'dotenv/config'
 
 export const Gain = dbConfig.define(
-    process.env.GAIN_MODEL_NAME,
+    "ganho",
     {
         id: {
             primaryKey: true,
@@ -27,8 +27,11 @@ export const Gain = dbConfig.define(
         descricao: {
             type: DataTypes.STRING(50)
         },
-        recorrencia: {
+        recorrente: {
             type: DataTypes.BOOLEAN
+        },
+        tipo: {
+            type: DataTypes.STRING(3)
         }
     },
     { freezeTableName: true, timestamps: false }

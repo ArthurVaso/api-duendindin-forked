@@ -13,7 +13,7 @@ import { Category } from './src/model/Category.mjs'
 import cors from 'cors';
 
 const app = express()
-const port = process.env.APP_PORT
+const port = 3000
 
 app.use(express.json())
 
@@ -34,13 +34,22 @@ app.use(settingRoutes)
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     console.error(err.message, err.stack);
-    res.status(statusCode).json({ message: err.message });
+    res.status(statusCode).json({ mensagem: err.message });
     return;
 });
 
 Category.belongsTo(User, {
     foreignKey: 'usuarioID'
 })
+
+Category.hasMany(Gain, {
+    foreignKey: 'id'
+})
+
+Category.hasMany(Expense, {
+    foreignKey: 'id'
+})
+
 Setting.belongsTo(User, {
     foreignKey: 'usuarioID'
 })

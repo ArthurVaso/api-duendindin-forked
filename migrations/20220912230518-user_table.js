@@ -22,6 +22,9 @@ module.exports = {
       data_nascimento: {
         type: Sequelize.DataTypes.DATEONLY,
       },
+      cep: {
+        type: Sequelize.DataTypes.STRING(10)
+      },
       cidade: {
         type: Sequelize.DataTypes.STRING(50)
       },
