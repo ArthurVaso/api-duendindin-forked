@@ -23,9 +23,7 @@ app.use(
     })
 )
 
-app.use(cors({
-    origin: 'http://localhost:4200'
-}))
+app.use(cors())
 
 app.use("/user",userRoutes)
 app.use('/category', categoryRoutes)

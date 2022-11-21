@@ -113,6 +113,32 @@ export const getAllExpensesFromUser = async (req, res) => {
     }
 }
 
+export const updateExpensePaid = async (req, res) => {
+
+    try {
+
+        if(!req.params['id']) {
+            return res.status(404).json({ mensagem: 'O código do vencimento é obrigatório!' });
+        }
+
+        const expense = await Expense.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if(!expense) {
+            return res.status(404).json({ mensagem: 'Vencimento não encontrado' });
+        }
+
+        await expense.update({pago: !expense.pago});
+
+        return res.status(200).json({ mensagem: 'Vencimento atualizado com sucesso!' })
+    } catch (err) {
+        return res.status(500).json({ mensagem: err.message })
+    }
+}
+
 export const updateExpense = async (req, res) => {
     try {
 
@@ -248,7 +274,7 @@ export const createExpense = async (req, res) => {
             return res.status(404).json({ mensagem: 'O valor é obrigatório!' });
         }
 
-        const expense = await Expense.create(req.body)
+        const expense = await Expense.create({...req.body, pago: false})
 
         const calc = new Number(category.valor) - new Number(expense.valor)
 

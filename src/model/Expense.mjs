@@ -32,6 +32,9 @@ export const Expense = dbConfig.define(
         },
         tipo: {
             type: DataTypes.STRING(3)
+        },
+        pago: {
+            type: DataTypes.BOOLEAN
         }
     },
     { freezeTableName: true, timestamps: false }

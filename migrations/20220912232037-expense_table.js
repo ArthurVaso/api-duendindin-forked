@@ -30,7 +30,10 @@ module.exports = {
       },
       tipo: {
         type: Sequelize.DataTypes.STRING(3)
-      }
+      },
+      pago: {
+        type: Sequelize.DataTypes.BOOLEAN
+      },
     })
   },
 
