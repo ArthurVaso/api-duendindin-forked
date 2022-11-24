@@ -85,6 +85,7 @@ export const getUserById = async (req, res) => {
     }
 
 }
+
 export const getAllUsers = async (req, res) => {
 
     try {
@@ -126,7 +127,7 @@ export const login = async (req, res) => {
             { where: { email: email }})
         }
         const jwt = authentication(user.id)
-        createSetting(user.id)
+        //createSetting(user.id)
         return res.status(200).json({
             jwt,
             user
