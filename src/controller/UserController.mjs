@@ -158,12 +158,30 @@ export const getUsersWithTheirsSettingsById = async (req, res) => {
 export const updateUserPassword = async (req, res) => {
 
     try {
+
         const {email, nova_senha, senha_atual} = req.body;
+        const padraoEmail = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/);
+
+        if(!email){
+            return res.status(500).json({ mensagem: "O email é obrigatório!" }) 
+        }
+        if(!padraoEmail.test(email)) {
+            return res.status(500).json({ mensagem: "Email inválido!" }) 
+        }
+        
         const user = await User.findOne({
             where: {
                 email: email
             }
         })
+
+        if(!senha_atual){
+            return res.status(500).json({ mensagem: "A senha atual é obrigatória!" }) 
+        }
+        if(!nova_senha){
+            return res.status(500).json({ mensagem: "A nova senha é obrigatória!" }) 
+        }
+
         const isValid = await bcrypt.compare(senha_atual, user.senha.toString())
         if(!isValid){
             return res.status(500).json({ mensagem: "Senha inválida!" }) 
