@@ -13,6 +13,8 @@ export const createUser = async (req, res) => {
         const hash = await bcrypt.hashSync(password, salt);
         req.body.senha = hash;
 
+        req.body.ativo = true;
+
         const user = await User.create(req.body);
         const jwt = authentication(user.id)
 
