@@ -4,6 +4,7 @@ import { categoryRoutes } from './src/routes/CategoryRoutes.mjs'
 import { expenseRoutes } from './src/routes/ExpenseRoutes.mjs'
 import { gainRoutes } from './src/routes/GainRoutes.mjs'
 import { settingRoutes } from './src/routes/SettingRoutes.mjs'
+import { chartsRoutes } from './src/routes/ChartsRoutes.mjs'
 import { userRoutes } from './src/routes/UserRoutes.mjs'
 import { User } from './src/model/User.mjs'
 import { Setting } from './src/model/Setting.mjs'
@@ -33,6 +34,7 @@ app.use('/category', categoryRoutes)
 app.use('/expense',expenseRoutes)
 app.use('/gain',gainRoutes)
 app.use('/setting', settingRoutes)
+app.use('/charts', chartsRoutes)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
