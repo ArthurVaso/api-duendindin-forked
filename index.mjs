@@ -84,26 +84,23 @@ const swaggerOptions = {
             servers: [
                 "http://localhost:3000/v1"
             ]
-        }
-    },
-    components: {
-        securitySchemes: {
+        },
+        securityDefinitions: {
             bearerAuth: {
-                type: "apiKey",
-                name: "x-access-token",
-                scheme: "bearer",
-                in: "header",
+                type: 'apiKey',
+                name: 'x-access-token',
+                scheme: 'bearer',
+                in: 'header',
             },
         },
+        security: [{ bearerAuth: [] }],
+        tags: [
+            {
+                name: "User",
+                description: "Endpoints User"
+            }
+        ],
     },
-    security: [
-        {
-            bearerAuth: {
-                type: "http",
-                scheme: "bearer",
-            },
-        },
-    ],
     apis: [
         './src/routes/UserRoutes.mjs',
         './src/routes/CategoryRoutes.mjs',
