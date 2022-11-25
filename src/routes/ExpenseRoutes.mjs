@@ -3,13 +3,30 @@ import { getAllExpensesFromUser, getAllExpenses, getExpense, getAllExpensesFromC
 
 const router = express.Router();
 
+/**
+ * @swagger
+ *  /expense:
+ *      get: 
+ *          summary: Consulta todos os gastos
+ *          produces:
+ *              - application/json
+ *          responses: 
+ *              201: 
+ *                  description: A sucessful created
+ *              500:
+ *                  description: Invalid
+ */
 router.get('/', verifyToken, getAllExpenses)
-router.get('/:id', verifyToken, getExpense)
-router.get('/category/:idCategoria', verifyToken, getAllExpensesFromCategory)
-router.get('/user/:idUsuario', verifyToken, getAllExpensesFromUser)
-router.get('/:id/:idCategoria', verifyToken, getExpenseFromCategory)
-router.put('/paid/:id', verifyToken, updateExpensePaid)
 
+router.get('/:id', verifyToken, getExpense)
+
+router.get('/category/:idCategoria', verifyToken, getAllExpensesFromCategory)
+
+router.get('/user/:idUsuario', verifyToken, getAllExpensesFromUser)
+
+router.get('/:id/:idCategoria', verifyToken, getExpenseFromCategory)
+
+router.put('/paid/:id', verifyToken, updateExpensePaid)
 
 router.put('/:id', verifyToken, updateExpense)
 

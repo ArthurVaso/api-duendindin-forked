@@ -11,6 +11,9 @@ import { Gain } from './src/model/Gain.mjs'
 import { Expense } from './src/model/Expense.mjs'
 import { Category } from './src/model/Category.mjs'
 import cors from 'cors';
+import swaggerJsDoc from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
+
 
 const app = express()
 const port = 3000
@@ -65,3 +68,48 @@ Expense.belongsTo(Category, {
 })
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
+
+
+//Swagger config
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: "Customer API",
+            description: "Customer API information",
+            contact: {
+                name: "Amazing Developer"
+            },
+            servers: [
+                "http://localhost:3000/v1"
+            ]
+        }
+    },
+    components: {
+        securitySchemes: {
+            bearerAuth: {
+                type: "apiKey",
+                name: "x-access-token",
+                scheme: "bearer",
+                in: "header",
+            },
+        },
+    },
+    security: [
+        {
+            bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+            },
+        },
+    ],
+    apis: [
+        './src/routes/UserRoutes.mjs',
+        './src/routes/CategoryRoutes.mjs',
+        './src/routes/ExpenseRoutes.mjs',
+        './src/routes/GainRoutes.mjs',
+        './src/routes/SettingRoutes.mjs'
+    ]
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
