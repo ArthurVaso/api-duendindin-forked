@@ -3,19 +3,20 @@ import { getAllExpensesFromUser, getAllExpenses, getExpense, getAllExpensesFromC
 
 const router = express.Router();
 
-/**
+ /**
  * @swagger
- *  /expense:
- *      get: 
- *          summary: Consulta todos os gastos
- *          produces:
- *              - application/json
- *          responses: 
- *              201: 
- *                  description: A sucessful created
- *              500:
- *                  description: Invalid
- */
+ * /expense:
+ *   get:
+ *     summary: Retrieve all Duendindin expenses.
+ *     description: Retrieve all Duendindin expenses.
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+*/
 router.get('/', verifyToken, getAllExpenses)
 
 router.get('/:id', verifyToken, getExpense)
