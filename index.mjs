@@ -52,6 +52,10 @@ Category.hasMany(Expense, {
     foreignKey: 'id'
 })
 
+User.hasOne(Setting, {
+    foreignKey: 'usuarioID'
+})
+
 Setting.belongsTo(User, {
     foreignKey: 'usuarioID'
 })

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', createUser);
 router.patch('/:id', verifyToken, inactivatedUser);
 router.put('/:id', verifyToken, updateUser);
-router.patch('/', verifyToken, updateUserPassword);
+router.patch('/', updateUserPassword);
 router.get('/getAll', verifyToken, getAllUsers);
 router.get('/:id', verifyToken, getUserById);
 router.get('/getSettings/:id', verifyToken, getUsersWithTheirsSettingsById);
