@@ -81,7 +81,7 @@ export const getUserById = async (req, res) => {
                 id: req.params.id
             }
         })
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Usuário não encontrado" })
+        return user !== null ? res.status(200).json(user) : res.status(404).json({ mensagem: "Usuário não encontrado" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -97,7 +97,7 @@ export const getAllUsers = async (req, res) => {
             },
             attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
           });
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Não foram encontrados Usuários" })
+        return user !== null ? res.status(200).json(user) : res.status(404).json({ mensagem: "Não foram encontrados Usuários" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -149,7 +149,7 @@ export const getUsersWithTheirsSettingsById = async (req, res) => {
             include: Setting,
             attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
         })
-        return user !== null ? res.status(200).json({ usuario: user }) : res.status(404).json({ mensagem: "Usuário não encontrado" })
+        return user !== null ? res.status(200).json(user) : res.status(404).json({ mensagem: "Usuário não encontrado" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }

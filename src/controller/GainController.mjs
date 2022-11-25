@@ -8,7 +8,7 @@ export const getAllEarnings = async (req, res) => {
     try {
         const allEarnings = await Gain.findAll()
 
-        return allEarnings !== null ? res.status(200).json({ ganhos: allEarnings }) : res.status(404).json({ mensagem: "Não encontrado" })
+        return allEarnings !== null ? res.status(200).json(allEarnings) : res.status(404).json({ mensagem: "Não encontrado" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -45,7 +45,7 @@ export const getAllEarningsFromUser = async (req, res) => {
             }
           });
 
-        return gains !== null ? res.status(200).json({ ganhos: mapReturn }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return gains !== null ? res.status(200).json(mapReturn) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -65,7 +65,7 @@ export const getGain = async (req, res) => {
             }
         })
 
-        return gain !== null ? res.status(200).json({ ganho: gain }) : res.status(404).json({ mensagem: "Não encontrado" })
+        return gain !== null ? res.status(200).json( gain) : res.status(404).json({ mensagem: "Não encontrado" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -84,7 +84,7 @@ export const getAllEarningsFromCategory = async (req, res) => {
             }
         })
 
-        return earnings !== null ? res.status(200).json({ ganhos: earnings }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return earnings !== null ? res.status(200).json(earnings) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -108,7 +108,7 @@ export const getGainFromCategory = async (req, res) => {
             }
         })
 
-        return gain !== null ? res.status(200).json({ ganho: gain }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return gain !== null ? res.status(200).json(gain) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -256,7 +256,7 @@ export const createGain = async (req, res) => {
             valor: calc.toFixed(2)
         })
 
-        return res.status(200).json({ ganho: gain })
+        return res.status(200).json(gain)
 
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })

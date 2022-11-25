@@ -8,7 +8,7 @@ export const getAllExpenses = async (req, res) => {
     try {
         const allExpenses = await Expense.findAll()
 
-        return allExpenses !== null ? res.status(200).json({ gastos: allExpenses }) : res.status(404).json({ mensagem: "Não encontrado" })
+        return allExpenses !== null ? res.status(200).json(allExpenses) : res.status(404).json({ mensagem: "Não encontrado" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -27,7 +27,7 @@ export const getExpense = async (req, res) => {
             }
         })
 
-        return expense !== null ? res.status(200).json({ gasto: expense }) : res.status(404).json({ mensagem: "Vencimento não encontrado!" })
+        return expense !== null ? res.status(200).json(expense) : res.status(404).json({ mensagem: "Vencimento não encontrado!" })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -47,7 +47,7 @@ export const getAllExpensesFromCategory = async (req, res) => {
             }
         })
 
-        return expenses !== null ? res.status(200).json({ gastos: expenses }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return expenses !== null ? res.status(200).json(expenses) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -71,7 +71,7 @@ export const getExpenseFromCategory = async (req, res) => {
             }
         })
 
-        return expense !== null ? res.status(200).json({ gasto: expense }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return expense !== null ? res.status(200).json(expense) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -107,7 +107,7 @@ export const getAllExpensesFromUser = async (req, res) => {
             }
         });
 
-        return expenses !== null ? res.status(200).json({ gastos: mapReturn }) : res.status(404).json({ mensagem: 'Não encontrado' })
+        return expenses !== null ? res.status(200).json(mapReturn) : res.status(404).json({ mensagem: 'Não encontrado' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -282,7 +282,7 @@ export const createExpense = async (req, res) => {
             valor: calc.toFixed(2)
         })
 
-        return res.status(200).json({ gasto: expense })
+        return res.status(200).json(expense)
 
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
