@@ -2,6 +2,7 @@ import { Category } from '../model/Category.mjs'
 import { Expense } from '../model/Expense.mjs'
 import { Gain } from '../model/Gain.mjs'
 import { Setting } from '../model/Setting.mjs'
+import { User } from '../model/User.mjs'
 import { dbConfig } from '../config/db.mjs'
 import { verifyPeriodIsNull } from '../helpers/MainHelper.mjs'
 import sequelize from 'sequelize';
@@ -19,10 +20,16 @@ export const getChart1 = async (req, res) => {
 
         verifyPeriodIsNull(res, startDate, endDate);
 
+        const setting = await Setting.findOne({
+            where: {
+                usuarioID: userId
+            }
+        })
+
         const gain = await dbConfig.query(
             `select
                 MONTH(gn.data) as mes,
-                sum(gn.valor) as valor
+                sum(gn.valor) + cf.renda_fixa as valor
             from
                 ganho gn
                 inner join categoria c on (c.id = gn.categoriaID)
@@ -61,7 +68,7 @@ export const getChart1 = async (req, res) => {
              });
              
              if(!expense.map(item => item.mes).includes(month)) {
-                 finalResult[month] = {gasto: 0};
+                 finalResult[month] = {gasto: 0 + setting.renda_fixa};
              }
          
          
@@ -71,7 +78,7 @@ export const getChart1 = async (req, res) => {
              });
              
              if(!gain.map(item2 => item2.mes).includes(month)) {
-                 finalResult[month] = {...finalResult[month], ganho: 0};
+                 finalResult[month] = {...finalResult[month], ganho: 0 + setting.renda_fixa};
              }
              
          });
@@ -95,10 +102,16 @@ export const getChart2 = async (req, res) => {
 
         verifyPeriodIsNull(res, startDate, endDate);
 
+        const setting = await Setting.findOne({
+            where: {
+                usuarioID: userId
+            }
+        })
+
         const gain = await dbConfig.query(
             `select
                 MONTH(gn.data) as mes,
-                sum(gn.valor) as valor
+                sum(gn.valor) + cf.renda_fixa as valor
             from
                 ganho gn
                 inner join categoria c on (c.id = gn.categoriaID)
@@ -137,7 +150,7 @@ export const getChart2 = async (req, res) => {
              });
              
              if(!expense.map(item => item.mes).includes(month)) {
-                 finalResult[month] = {gasto: 0};
+                 finalResult[month] = {gasto: 0 + setting.renda_fixa};
              }
          
          
@@ -147,7 +160,7 @@ export const getChart2 = async (req, res) => {
              });
              
              if(!gain.map(item2 => item2.mes).includes(month)) {
-                 finalResult[month] = {...finalResult[month], ganho: 0};
+                 finalResult[month] = {...finalResult[month], ganho: 0 + setting.renda_fixa};
              }
              
          });
@@ -161,37 +174,88 @@ export const getChart2 = async (req, res) => {
 export const getChart3 = async (req, res) => {
     try {
         
-        const startDate = req.body.startDate;
-        const endDate = req.body.endDate;
-        const idUsuario = req.parbody.idUsuario;
+        const mes = req.body.mes;
+        const ano = req.body.ano;
+        const idUsuario = req.body.idUsuario;
 
         if(!idUsuario) {
             return res.status(500).json({ mensagem: "Autenticação é necessária!" })
         }
 
-        verifyPeriodIsNull(res, startDate, endDate);
+        if(!mes || mes == -1) {
+            return res.status(500).json({ mensagem: "O mês é necessário!" })
+        }
 
-        const chart = await dbConfig.query(
-            `select distinct
-                c.nome as nome,
-                count(gt.id) + count(gn.id) as qtd
-            from 
-                categoria c
-                left join gasto gt on (c.id = gt.categoriaID)
-                left join ganho gn on (c.id = gn.categoriaID)
-            where 
-                c.usuarioID = ${idUsuario}
+        if(!ano || ano == -1) {
+            return res.status(500).json({ mensagem: "O ano é necessário!" })
+        }
+
+        const totalSalary = await dbConfig.query(
+            `select
+                cf.renda_fixa + sum(gn.valor) as renda_total_mes
+            from
+                ganho gn
+                inner join categoria c on (c.id = gn.categoriaID)
+                inner join configuracao cf on (cf.usuarioID = c.usuarioID)
+            where
+                cf.usuarioID =  ${idUsuario}
             and
-                (
-                    (gt.data between ${startDate} and ${endDate})
-                        or
-                    (gn.data between ${startDate} and ${endDate})
-                )
+                month(gn.data) = ${mes}
+            and
+                year(gn.data) = ${ano}
             group by
-                c.nome;`
+                month(gn.data);`,
+            { type: sequelize.QueryTypes.SELECT }
         )
 
-        return res.status(200).json({ chart })
+        const p50 = await dbConfig.query(
+            `select
+                month(gt.data) as mes,
+                sum(gt.valor) as saldo
+            from
+                gasto gt
+                inner join categoria c on (c.id = gt.categoriaID)
+                inner join usuario u on (u.id = c.usuarioID)
+            where
+                u.id =  ${idUsuario}
+            and
+                gt.tipo = 'F'
+            and
+                month(gt.data) = ${mes}
+            and
+                year(gt.data) = ${ano}
+            group by
+                month(gt.data);`,
+            { type: sequelize.QueryTypes.SELECT }
+        )
+
+        const p30 = await dbConfig.query(
+            `select
+                month(gt.data) as mes,
+                sum(gt.valor) as saldo
+            from
+                gasto gt
+                inner join categoria c on (c.id = gt.categoriaID)
+                inner join usuario u on (u.id = c.usuarioID)
+            where
+                u.id =  ${idUsuario}
+            and
+                gt.recorrente = 0
+            and
+                month(gt.data) = ${mes}
+            and
+                year(gt.data) = ${ano}
+            group by
+                month(gt.data);`,
+            { type: sequelize.QueryTypes.SELECT }
+        )
+
+
+        return res.status(200).json({
+            totalSalary,
+            p50,
+            p30
+        })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
