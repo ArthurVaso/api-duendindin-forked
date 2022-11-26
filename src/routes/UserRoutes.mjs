@@ -42,7 +42,7 @@ router.patch('/:id', verifyToken, inactivatedUser);
 /**
  * @swagger
  * /user/{id}:
- *   put:
+ *   patch:
  *     tags: ['User']
  *     summary: Update user information.
  *     description: Update user information.
