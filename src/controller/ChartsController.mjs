@@ -22,7 +22,7 @@ export const getChart1 = async (req, res) => {
         const gain = await dbConfig.query(
             `select
                 MONTH(gn.data) as mes,
-                sum(gn.valor) + cf.renda_fixa as valor
+                sum(gn.valor) as valor
             from
                 ganho gn
                 inner join categoria c on (c.id = gn.categoriaID)
@@ -50,12 +50,33 @@ export const getChart1 = async (req, res) => {
             { type: sequelize.QueryTypes.SELECT }
         )
 
-            const chart = {
-                gain,
-                expense
-            }
+        const uniqueMonths = [...new Set([...gain.map(item => item.mes), ...expense.map(item => item.mes)])];
 
-        return res.status(200).json({ chart })
+        const finalResult = {};
+
+        uniqueMonths.forEach(month => {
+
+            expense.forEach(item => {
+                 finalResult[item.mes] = {gasto: item.valor};
+             });
+             
+             if(!expense.map(item => item.mes).includes(month)) {
+                 finalResult[month] = {gasto: 0};
+             }
+         
+         
+         
+            gain.forEach(item2 => {
+                 finalResult[item2.mes] = {...finalResult[item2.mes],ganho: item2.valor};
+             });
+             
+             if(!gain.map(item2 => item2.mes).includes(month)) {
+                 finalResult[month] = {...finalResult[month], ganho: 0};
+             }
+             
+         });
+
+        return res.status(200).json(finalResult)
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -64,37 +85,74 @@ export const getChart1 = async (req, res) => {
 export const getChart2 = async (req, res) => {
     try {
         
-        const startDate = req.body.startDate;
-        const endDate = req.body.endDate;
-        const idUsuario = req.parbody.idUsuario;
+        const startDate = req.body.dataInicial;
+        const endDate = req.body.dataFinal;
+        const userId = req.body.idUsuario;
 
-        if(!idUsuario) {
+        if(!userId) {
             return res.status(500).json({ mensagem: "Autenticação é necessária!" })
         }
 
         verifyPeriodIsNull(res, startDate, endDate);
 
-        const chart = await dbConfig.query(
-            `select distinct
-                c.nome as nome,
-                count(gt.id) + count(gn.id) as qtd
-            from 
-                categoria c
-                left join gasto gt on (c.id = gt.categoriaID)
-                left join ganho gn on (c.id = gn.categoriaID)
+        const gain = await dbConfig.query(
+            `select
+                MONTH(gn.data) as mes,
+                sum(gn.valor) as valor
+            from
+                ganho gn
+                inner join categoria c on (c.id = gn.categoriaID)
+                inner join configuracao cf on (c.usuarioID = cf.usuarioID)
             where 
-                c.usuarioID = ${idUsuario}
+                c.usuarioID = ${userId}
             and
-                (
-                    (gt.data between ${startDate} and ${endDate})
-                        or
-                    (gn.data between ${startDate} and ${endDate})
-                )
-            group by
-                c.nome;`
+                data >= '${startDate}' and data <= '${endDate}'
+            group by MONTH(gn.data);`,
+            { type: sequelize.QueryTypes.SELECT }
         )
 
-        return res.status(200).json({ chart })
+        const expense = await dbConfig.query(
+            `select
+                MONTH(gn.data) as mes,
+                sum(gn.valor) as valor
+            from
+                gasto gn
+                inner join categoria c on (c.id = gn.categoriaID)
+            where 
+                c.usuarioID = ${userId}
+            and
+                data >= '${startDate}' and data <= '${endDate}'
+            group by MONTH(gn.data);`,
+            { type: sequelize.QueryTypes.SELECT }
+        )
+
+        const uniqueMonths = [...new Set([...gain.map(item => item.mes), ...expense.map(item => item.mes)])];
+
+        const finalResult = {};
+
+        uniqueMonths.forEach(month => {
+
+            expense.forEach(item => {
+                 finalResult[item.mes] = {gasto: item.valor};
+             });
+             
+             if(!expense.map(item => item.mes).includes(month)) {
+                 finalResult[month] = {gasto: 0};
+             }
+         
+         
+         
+            gain.forEach(item2 => {
+                 finalResult[item2.mes] = {...finalResult[item2.mes],ganho: item2.valor};
+             });
+             
+             if(!gain.map(item2 => item2.mes).includes(month)) {
+                 finalResult[month] = {...finalResult[month], ganho: 0};
+             }
+             
+         });
+
+        return res.status(200).json(finalResult)
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -142,9 +200,9 @@ export const getChart3 = async (req, res) => {
 export const getChart4 = async (req, res) => {
     try {
         
-        const startDate = req.body.startDate;
-        const endDate = req.body.endDate;
-        const idUsuario = req.parbody.idUsuario;
+        const startDate = req.body.dataInicial;
+        const endDate = req.body.dataFinal;
+        const idUsuario = req.body.idUsuario;
 
         if(!idUsuario) {
             return res.status(500).json({ mensagem: "Autenticação é necessária!" })
@@ -164,16 +222,16 @@ export const getChart4 = async (req, res) => {
                 c.usuarioID = ${idUsuario}
             and
                 (
-                    (gt.data between ${startDate} and ${endDate})
+                    (gt.data between '${startDate}' and '${endDate}')
                         or
-                    (gn.data between ${startDate} and ${endDate})
+                    (gn.data between '${startDate}' and '${endDate}')
                 )
             group by
                 c.nome;`,
             { type: sequelize.QueryTypes.SELECT }
         )
 
-        return res.status(200).json({ chart })
+        return res.status(200).json(chart)
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }

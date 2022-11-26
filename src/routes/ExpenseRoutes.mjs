@@ -154,9 +154,9 @@ router.get('/user/:idUsuario', verifyToken, getAllExpensesFromUser)
 */
 router.get('/:id/:idCategoria', verifyToken, getExpenseFromCategory)
 
-router.put('/paid/:id', verifyToken, updateExpensePaid)
+router.patch('/paid/:id', verifyToken, updateExpensePaid)
 
-router.put('/:id', verifyToken, updateExpense)
+router.patch('/:id', verifyToken, updateExpense)
 
 router.delete('/:id', verifyToken, deleteExpense)
 

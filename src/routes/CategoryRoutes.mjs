@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', verifyToken, createCategory) //
 
-router.put('/:userId/:id', verifyToken, updateCategory) //
+router.patch('/:userId/:id', verifyToken, updateCategory) //
 
 router.delete('/:userId/:id', verifyToken, deleteCategory)
 

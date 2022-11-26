@@ -23,7 +23,7 @@ router.post('/', createUser);
 
 router.patch('/:id', verifyToken, inactivatedUser);
 
-router.put('/:id', verifyToken, updateUser);
+router.patch('/:id', verifyToken, updateUser);
 
 router.patch('/', updateUserPassword);
 

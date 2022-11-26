@@ -6,6 +6,6 @@ const router = express.Router();
 
 export const settingRoutes = router
 
-router.put('/:id', verifyToken, updateSetting);
+router.patch('/:id', verifyToken, updateSetting);
 router.get('/:userId', verifyToken, getAllSettingFromUser)
 router.get('/', verifyToken, getAllSettings)

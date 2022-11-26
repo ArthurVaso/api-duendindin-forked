@@ -8,6 +8,6 @@ export const dbConfig = new sequelize(
     {
         dialect: 'mysql',
         host: 'localhost',
-        logging: false
+        logging: true
     }
 )

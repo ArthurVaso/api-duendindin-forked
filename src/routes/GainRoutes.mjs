@@ -10,7 +10,7 @@ router.get('/category/:idCategoria', verifyToken, getAllEarningsFromCategory)
 router.get('/user/:idUsuario', verifyToken, getAllEarningsFromUser)
 router.get('/:id/:idCategoria', verifyToken, getGainFromCategory)
 
-router.put('/:id', verifyToken, updateGain)
+router.patch('/:id', verifyToken, updateGain)
 
 router.delete('/:id', verifyToken, deleteGain)
 
