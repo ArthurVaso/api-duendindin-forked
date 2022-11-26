@@ -7,11 +7,12 @@ const router = express.Router();
  * @swagger
  * /expense:
  *   get:
- *     summary: Retrieve all Duendindin expenses.
- *     description: Retrieve all Duendindin expenses.
+ *     tags: ['Expense']
+ *     summary: Retrieve all Duendindin expenses
+ *     description: Retrieve all Duendindin expenses
  *     responses:
  *       200:
- *         description: A single user.
+ *         description: A single user
  *         content:
  *           application/json:
  *             schema:
@@ -24,6 +25,7 @@ router.get('/', verifyToken, getAllExpenses)
  * @swagger
  * /expense/{id}:
  *   get:
+ *     tags: ['Expense']
  *     summary: Retrieve a single Duendindin user.
  *     description: Retrieve a single Duendindin user.
  *     parameters:
@@ -55,6 +57,7 @@ router.get('/:id', verifyToken, getExpense)
  * @swagger
  * /expense/category/{idCategoria}:
  *   get:
+ *     tags: ['Expense']
  *     summary: Retrieve a single Duendindin user.
  *     description: Retrieve a single Duendindin user.
  *     parameters:
@@ -86,6 +89,7 @@ router.get('/category/:idCategoria', verifyToken, getAllExpensesFromCategory)
  * @swagger
  * /expense/user/{idUsuario}:
  *   get:
+ *     tags: ['Expense']
  *     summary: Retrieve a single Duendindin user.
  *     description: Retrieve a single Duendindin user.
  *     parameters:
@@ -117,6 +121,7 @@ router.get('/user/:idUsuario', verifyToken, getAllExpensesFromUser)
  * @swagger
  * /expense/{id}/{idCategoria}:
  *   get:
+ *     tags: ['Expense']
  *     summary: Retrieve a single Duendindin user.
  *     description: Retrieve a single Duendindin user.
  *     parameters:
