@@ -5,31 +5,108 @@ const router = express.Router();
 
 /**
  * @swagger
- *     definitions:
- *         Login:
- *             type: object
- *             properties:
- *                 email:
- *                     type: string
- *                     description: The user email.
- *                     example: string
- *                 senha:
- *                     type: string
- *                     description: The user passoword.
- *                     example: string
- */
-
+ * /user:
+ *    post:
+ *      tags: ['User']
+ *      summary: Create a user.
+ *      description: Create a user.
+ *      parameters:
+ *          - in: body
+ *            name: login
+ *            schema:
+ *               $ref: '#/definitions/CreateUser'
+ *      responses:
+ *          200:
+ *              description: A JWT user.
+*/
 router.post('/', createUser);
 
+/**
+ * @swagger
+ * /user/{id}:
+ *   patch:
+ *     tags: ['User']
+ *     summary: Update status inactivate the user.
+ *     description: Update status inactivate the user.
+ *     parameters:
+ *         - in: body
+ *           name: updateStatusUser
+ *           schema:
+ *              $ref: '#/definitions/UpdateStatusUser'
+ *     responses:
+ *       200:
+ *         description: A JWT user.
+*/
 router.patch('/:id', verifyToken, inactivatedUser);
 
+/**
+ * @swagger
+ * /user/{id}:
+ *   put:
+ *     tags: ['User']
+ *     summary: Update user information.
+ *     description: Update user information.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: Numeric ID of the user to retrieve.
+ *           schema:
+ *              type: integer
+ *         - in: body
+ *           name: updateStatusUser
+ *           schema:
+ *              $ref: '#/definitions/UpdateStatusUser'
+ *     responses:
+ *       200:
+ *         description: A JWT user.
+*/
 router.put('/:id', verifyToken, updateUser);
 
+/**
+ * @swagger
+ * /user:
+ *   patch:
+ *     tags: ['User']
+ *     summary: Update user password.
+ *     description: Update user password.
+ *     parameters:
+ *         - in: body
+ *           name: updatePasswordUser
+ *           schema:
+ *              $ref: '#/definitions/UpdatePasswordUser'
+ *     responses:
+ *       200:
+ *         description: A JWT user.
+*/
 router.patch('/', updateUserPassword);
 
+/**
+ * @swagger
+ * /user/getAll:
+ *   get:
+ *     tags: ['User']
+ *     summary: Retrieve all Duendindin users.
+ *     description: Retrieve all single Duendindin users.
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       description: The user ID.
+ *                       example: 0
+*/
 router.get('/getAll', verifyToken, getAllUsers);
 
- /**
+/**
  * @swagger
  * /user/{id}:
  *   get:
@@ -61,6 +138,37 @@ router.get('/getAll', verifyToken, getAllUsers);
 */
 router.get('/:id', verifyToken, getUserById);
 
+
+/**
+ * @swagger
+ * /user/getSettings/{id}:
+ *   get:
+ *     tags: ['User']
+ *     summary: Retrieve a setting Duendindin user.
+ *     description: Retrieve a setting Duendindin user.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Numeric ID of the user to retrieve.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A setting user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       description: The user ID.
+ *                       example: 0
+*/
 router.get('/getSettings/:id', verifyToken, getUsersWithTheirsSettingsById);
 
 /**
@@ -82,4 +190,5 @@ router.get('/getSettings/:id', verifyToken, getUsersWithTheirsSettingsById);
 router.post('/login', login);
 
 export const userRoutes = router
+
 

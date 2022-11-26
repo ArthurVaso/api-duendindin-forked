@@ -9,6 +9,11 @@ export const createUser = async (req, res) => {
     try {
 
         const password = req.body.senha;
+
+        if(!password || !req.body.email){
+            return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" })   
+        }
+
         const salt = await bcrypt.genSaltSync(10);
         const hash = await bcrypt.hashSync(password, salt);
         req.body.senha = hash;

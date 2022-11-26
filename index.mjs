@@ -106,7 +106,8 @@ const swaggerOptions = {
         './src/routes/CategoryRoutes.mjs',
         './src/routes/ExpenseRoutes.mjs',
         './src/routes/GainRoutes.mjs',
-        './src/routes/SettingRoutes.mjs'
+        './src/routes/SettingRoutes.mjs',
+        './src/documentation/models.js'
     ]
 }
 
