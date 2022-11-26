@@ -112,13 +112,7 @@ export const getAllUsers = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {email, senha} = req.body;
-
-        const user = await User.findOne({
-            where: {
-                email: email
-            }
-        })
-
+        
         if(!user){
             return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" })   
         }
@@ -126,6 +120,13 @@ export const login = async (req, res) => {
         if(!isValid){
             return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" }) 
         }
+        
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+
         
         if(!user.ativo){
             await User.update({
