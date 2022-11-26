@@ -89,7 +89,10 @@ export const getAllExpensesFromUser = async (req, res) => {
                 model: Category,
                 where: {
                     usuarioID: req.params['idUsuario']
-                }
+                },
+                order: [
+                    ['data']
+                ]
             }]
         })
 
