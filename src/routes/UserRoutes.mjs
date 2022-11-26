@@ -61,7 +61,8 @@ router.patch('/:id', verifyToken, inactivatedUser);
  *       200:
  *         description: A JWT user.
 */
-router.patch('/:id', verifyToken, updateUser);
+router.patch('/full/:id', verifyToken, updateUser);
+router.put('/full/:id', verifyToken, updateUser);
 
 /**
  * @swagger

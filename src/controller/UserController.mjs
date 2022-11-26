@@ -72,7 +72,19 @@ export const updateUser = async (req, res) => {
                 id: req.params.id
             }
         })
-        return user >= 1 ? res.status(200).json({ mensagem: 'Usuário atualizado com sucesso.' }) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar o usuário' })
+
+        const setting = await Setting.update(req.body, {
+            where: {
+                usuarioID: req.params.id
+            }
+        })
+
+        const userReturn = {
+            ...user,
+            ...setting
+        }
+
+        return user >= 1 ? res.status(200).json(userReturn) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar o usuário' })
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
