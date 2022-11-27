@@ -4,9 +4,9 @@ import 'dotenv/config'
 export default {
   development: {
     username: 'root',
-    password: 'root',
+    password: 'rootroot',
     database: 'duendindindb',
-    host: 'localhost',
+    host: 'database-duendindin.chpmo6n1affu.us-east-2.rds.amazonaws.com',
     port: 3306,
     dialect: 'mysql',
     dialectOptions: {

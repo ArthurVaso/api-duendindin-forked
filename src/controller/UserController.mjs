@@ -10,8 +10,20 @@ export const createUser = async (req, res) => {
 
         const password = req.body.senha;
 
-        if(!password || !req.body.email){
+        const padraoEmail = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/);
+
+        if(!password || !req.body.email || !padraoEmail.test(req.body.email)){
             return res.status(500).json({ mensagem: "Email e/ou senha inválido(s)!" })   
+        }
+
+        const userExists = await User.findOne({
+            where: {
+                email: req.body.email
+            }
+        })
+        
+        if(userExists) {
+            return res.status(500).json({ mensagem: "O email informado não está disponível!" })   
         }
 
         const salt = await bcrypt.genSaltSync(10);
@@ -67,6 +79,7 @@ export const updateUser = async (req, res) => {
     
             req.body.senha = hash;
         }
+        
         const user = await User.update(req.body, {
             where: {
                 id: req.params.id

@@ -4,10 +4,10 @@ import 'dotenv/config'
 export const dbConfig = new sequelize(
     'duendindindb',
     'root',
-    'root',
+    'rootroot',
     {
         dialect: 'mysql',
-        host: 'localhost',
+        host: 'database-duendindin.chpmo6n1affu.us-east-2.rds.amazonaws.com',
         logging: true
     }
 )
