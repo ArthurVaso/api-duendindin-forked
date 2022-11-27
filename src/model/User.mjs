@@ -12,10 +12,10 @@ export const User = dbConfig.define(
             allowNull: false
         },
         nome: {
-            type: DataTypes.STRING(30)
+            type: DataTypes.STRING(100)
         },
         email: {
-            type: DataTypes.STRING(30),
+            type: DataTypes.STRING(100),
             unique: true
         },
         senha: {

@@ -14,10 +14,10 @@ module.exports = {
         allowNull: false,
       },
       nome: {
-        type: Sequelize.DataTypes.STRING(30)
+        type: Sequelize.DataTypes.STRING(100)
       },
       descricao: {
-        type: Sequelize.DataTypes.STRING(50)
+        type: Sequelize.DataTypes.STRING(256)
       }
       // gasto_fixo: {
       //   type: Sequelize.DataTypes.DECIMAL(10, 2)

@@ -10,10 +10,10 @@ module.exports = {
         allowNull: false
       },
       nome: {
-        type: Sequelize.DataTypes.STRING(30)
+        type: Sequelize.DataTypes.STRING(100)
       },
       email: {
-        type: Sequelize.DataTypes.STRING(30),
+        type: Sequelize.DataTypes.STRING(100),
         unique: true
       },
       senha: {

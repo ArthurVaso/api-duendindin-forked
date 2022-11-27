@@ -16,7 +16,7 @@ export const Expense = dbConfig.define(
             allowNull: false
         },
         nome: {
-            type: DataTypes.STRING(30)
+            type: DataTypes.STRING(100)
         },
         data: {
             type: DataTypes.DATEONLY
@@ -25,7 +25,7 @@ export const Expense = dbConfig.define(
             type: DataTypes.DECIMAL(10, 2)
         },
         descricao: {
-            type: DataTypes.STRING(50)
+            type: DataTypes.STRING(256)
         },
         recorrente: {
             type: DataTypes.BOOLEAN

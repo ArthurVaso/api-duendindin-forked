@@ -14,7 +14,7 @@ module.exports = {
           allowNull: false
       },
       nome: {
-        type: Sequelize.DataTypes.STRING(30)
+        type: Sequelize.DataTypes.STRING(100)
       },
       data: {
         type: Sequelize.DataTypes.DATEONLY
@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.DataTypes.DECIMAL(10, 2)
       },
       descricao: {
-        type: Sequelize.DataTypes.STRING(50)
+        type: Sequelize.DataTypes.STRING(256)
       },
       recorrente: {
         type: Sequelize.DataTypes.BOOLEAN

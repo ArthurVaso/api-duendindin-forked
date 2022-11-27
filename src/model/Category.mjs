@@ -16,10 +16,10 @@ export const Category = dbConfig.define(
             allowNull: false
         },
         nome: {
-            type: DataTypes.STRING(30)
+            type: DataTypes.STRING(100)
         },
         descricao: {
-            type: DataTypes.STRING(50)
+            type: DataTypes.STRING(256)
         },
         /*gasto_fixo: {
             type: DataTypes.DECIMAL(10, 2)
