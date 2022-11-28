@@ -219,7 +219,7 @@ export const getChart3 = async (req, res) => {
             where
                 u.id =  ${idUsuario}
             and
-                gt.tipo = 'F'
+                gt.recorrente = '1'
             and
                 month(gt.data) = ${mes}
             and
