@@ -72,13 +72,6 @@ export const inactivatedUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        if(req.body.senha !== undefined){
-            const password = req.body.senha;
-            const salt = await bcrypt.genSaltSync(10);
-            const hash = await bcrypt.hashSync(password.toString(), salt);
-    
-            req.body.senha = hash;
-        }
         
         const user = await User.update(req.body, {
             where: {
