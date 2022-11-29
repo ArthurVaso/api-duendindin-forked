@@ -64,22 +64,20 @@ export const getChart1 = async (req, res) => {
         uniqueMonths.forEach(month => {
 
             expense.forEach(item => {
-                 finalResult[item.mes] = {gasto: item.valor};
-             });
-             
-             if(!expense.map(item => item.mes).includes(month)) {
-                 finalResult[month] = {gasto: 0 + setting.renda_fixa};
-             }
-         
-         
-         
-            gain.forEach(item2 => {
-                 finalResult[item2.mes] = {...finalResult[item2.mes],ganho: item2.valor};
-             });
-             
-             if(!gain.map(item2 => item2.mes).includes(month)) {
-                 finalResult[month] = {...finalResult[month], ganho: 0 + setting.renda_fixa};
-             }
+                finalResult[item.mes] = {...finalResult[item.mes], gasto: Number(item.valor)};
+            });
+            
+            if(!expense.map(item => item.mes).includes(month)) {
+                finalResult[month] = {...finalResult[month], gasto: 0};
+            }
+        
+           gain.forEach(item2 => {
+                finalResult[item2.mes] = {...finalResult[item2.mes],ganho: Number(item2.valor)};
+            });
+            
+            if(!gain.map(item2 => item2.mes).includes(month)) {
+                finalResult[month] = {...finalResult[month], ganho: 0 + Number(setting.renda_fixa)};
+            }
              
          });
 
@@ -146,22 +144,20 @@ export const getChart2 = async (req, res) => {
         uniqueMonths.forEach(month => {
 
             expense.forEach(item => {
-                 finalResult[item.mes] = {gasto: item.valor};
-             });
-             
-             if(!expense.map(item => item.mes).includes(month)) {
-                 finalResult[month] = {gasto: 0 + setting.renda_fixa};
-             }
-         
-         
-         
-            gain.forEach(item2 => {
-                 finalResult[item2.mes] = {...finalResult[item2.mes],ganho: item2.valor};
-             });
-             
-             if(!gain.map(item2 => item2.mes).includes(month)) {
-                 finalResult[month] = {...finalResult[month], ganho: 0 + setting.renda_fixa};
-             }
+                finalResult[item.mes] = {...finalResult[item.mes], gasto: Number(item.valor)};
+            });
+            
+            if(!expense.map(item => item.mes).includes(month)) {
+                finalResult[month] = {...finalResult[month], gasto: 0};
+            }
+        
+           gain.forEach(item2 => {
+                finalResult[item2.mes] = {...finalResult[item2.mes],ganho: Number(item2.valor)};
+            });
+            
+            if(!gain.map(item2 => item2.mes).includes(month)) {
+                finalResult[month] = {...finalResult[month], ganho: 0 + Number(setting.renda_fixa)};
+            }
              
          });
 
