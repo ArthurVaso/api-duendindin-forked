@@ -12,7 +12,7 @@ const router = express.Router();
  *     description: Retrieve all Duendindin expenses
  *     responses:
  *       200:
- *         description: A single user
+ *         description: All expense
  *         content:
  *           application/json:
  *             schema:
@@ -26,18 +26,18 @@ router.get('/', verifyToken, getAllExpenses)
  * /expense/{id}:
  *   get:
  *     tags: ['Expense']
- *     summary: Retrieve a single Duendindin user.
- *     description: Retrieve a single Duendindin user.
+ *     summary: Retrieve a single Duendindin expense
+ *     description: Retrieve a single Duendindin expense
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the user to retrieve.
+ *         description: Numeric ID of the expense
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: A single user.
+ *         description: A single expense
  *         content:
  *           application/json:
  *             schema:
@@ -58,18 +58,18 @@ router.get('/:id', verifyToken, getExpense)
  * /expense/category/{idCategoria}:
  *   get:
  *     tags: ['Expense']
- *     summary: Retrieve a single Duendindin user.
- *     description: Retrieve a single Duendindin user.
+ *     summary: Retrieve a single Duendindin expense with category
+ *     description: Retrieve a single Duendindin expense with category
  *     parameters:
  *       - in: path
  *         name: idCategoria
  *         required: true
- *         description: Numeric ID of the user to retrieve.
+ *         description: Numeric ID of the category
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: A single user.
+ *         description: A single expense
  *         content:
  *           application/json:
  *             schema:
@@ -122,24 +122,24 @@ router.get('/user/:idUsuario', verifyToken, getAllExpensesFromUser)
  * /expense/{id}/{idCategoria}:
  *   get:
  *     tags: ['Expense']
- *     summary: Retrieve a single Duendindin user.
- *     description: Retrieve a single Duendindin user.
+ *     summary: Retrieve all Duendindin expense of category with user
+ *     description: Retrieve all Duendindin expense of category with user
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the user to retrieve.
+ *         description: Numeric ID of the expense
  *         schema:
  *           type: integer
  *       - in: path
  *         name: idCategoria
  *         required: true
- *         description: Numeric ID of the user to retrieve.
+ *         description: Numeric ID of the category
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: A single user.
+ *         description: All expense 
  *         content:
  *           application/json:
  *             schema:
@@ -161,10 +161,66 @@ router.get('/:id/:idCategoria', verifyToken, getExpenseFromCategory)
 
 router.patch('/paid/:id', verifyToken, updateExpensePaid)
 
+/**
+ * @swagger
+ * /expense/{id}:
+ *    patch:
+ *      tags: ['Expense']
+ *      summary: Update a expense
+ *      description: Update a expense
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID of the expense
+ *            schema:
+ *              type: integer
+ *          - in: body
+ *            name: expense
+ *            schema:
+ *               $ref: '#/definitions/UpdateExpense'
+ *      responses:
+ *          200:
+ *              description: A update expense
+*/
 router.patch('/:id', verifyToken, updateExpense)
 
+/**
+ * @swagger
+ * /expense/{id}:
+ *    delete:
+ *      tags: ['Expense']
+ *      summary: Delete a expense
+ *      description: Delete a expense
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID of the expense
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: A delete expense
+*/
 router.delete('/:id', verifyToken, deleteExpense)
 
+/**
+ * @swagger
+ * /expense:
+ *    post:
+ *      tags: ['Expense']
+ *      summary: Create a expense
+ *      description: Create a expense
+ *      parameters:
+ *          - in: body
+ *            name: expense
+ *            schema:
+ *               $ref: '#/definitions/CreateExpense'
+ *      responses:
+ *          200:
+ *              description: A create expense
+*/
 router.post('/', verifyToken, createExpense)
 
 export const expenseRoutes = router

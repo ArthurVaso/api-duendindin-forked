@@ -76,8 +76,8 @@ app.listen(port, () => console.log(`API listening on port ${port}!`))
 const swaggerOptions = {
     swaggerDefinition: {
         info: {
-            title: "Customer API",
-            description: "Customer API information",
+            title: "Duendindin API",
+            description: "Duendindin API information",
             contact: {
                 name: "Amazing Developer"
             },
@@ -98,6 +98,22 @@ const swaggerOptions = {
             {
                 name: "User",
                 description: "Endpoints User"
+            },
+            {
+                name: "Category",
+                description: "Endpoints Category"
+            },
+            {
+                name: "Expense",
+                description: "Endpoints Expense"
+            },
+            {
+                name: "Gain",
+                description: "Endpoints Gain"
+            },
+            {
+                name: "Setting",
+                description: "Endpoints Setting"
             }
         ],
     },

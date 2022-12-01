@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
                 email: req.body.email
             }
         })
-        
+
         if(userExists) {
             return res.status(500).json({ mensagem: "O email informado não está disponível!" })   
         }

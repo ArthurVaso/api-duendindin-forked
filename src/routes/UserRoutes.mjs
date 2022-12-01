@@ -16,32 +16,34 @@ const router = express.Router();
  *            schema:
  *               $ref: '#/definitions/CreateUser'
  *      responses:
- *          200:
- *              description: A JWT user.
+ *          201:
+ *              description: A create user.
 */
 router.post('/', createUser);
 
 /**
  * @swagger
- * /user/{id}:
+ * /user/{id}/Status:
  *   patch:
  *     tags: ['User']
  *     summary: Update status inactivate the user.
  *     description: Update status inactivate the user.
  *     parameters:
- *         - in: body
- *           name: updateStatusUser
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: Numeric ID of the user to retrieve.
  *           schema:
- *              $ref: '#/definitions/UpdateStatusUser'
+ *              type: integer
  *     responses:
  *       200:
- *         description: A JWT user.
+ *         description: A update inactived user.
 */
-router.patch('/:id', verifyToken, inactivatedUser);
+router.patch('/:id/Status', verifyToken, inactivatedUser);
 
 /**
  * @swagger
- * /user/{id}:
+ * /user/full/{id}:
  *   patch:
  *     tags: ['User']
  *     summary: Update user information.
@@ -50,18 +52,41 @@ router.patch('/:id', verifyToken, inactivatedUser);
  *         - in: path
  *           name: id
  *           required: true
- *           description: Numeric ID of the user to retrieve.
+ *           description: Numeric ID of the user.
  *           schema:
  *              type: integer
  *         - in: body
- *           name: updateStatusUser
+ *           name: updateUser
  *           schema:
- *              $ref: '#/definitions/UpdateStatusUser'
+ *              $ref: '#/definitions/UpdateUser'
  *     responses:
  *       200:
- *         description: A JWT user.
+ *         description: A update user.
 */
 router.patch('/full/:id', verifyToken, updateUser);
+
+/**
+ * @swagger
+ * /user/full/{id}:
+ *   put:
+ *     tags: ['User']
+ *     summary: Update all user information.
+ *     description: Update all user information.
+ *     parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: Numeric ID of the user.
+ *           schema:
+ *              type: integer
+ *         - in: body
+ *           name: updateUser
+ *           schema:
+ *              $ref: '#/definitions/UpdateUser'
+ *     responses:
+ *       200:
+ *         description: A update all user .
+*/
 router.put('/full/:id', verifyToken, updateUser);
 
 /**
@@ -78,7 +103,7 @@ router.put('/full/:id', verifyToken, updateUser);
  *              $ref: '#/definitions/UpdatePasswordUser'
  *     responses:
  *       200:
- *         description: A JWT user.
+ *         description: A update password user.
 */
 router.patch('/', updateUserPassword);
 

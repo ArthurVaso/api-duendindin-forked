@@ -7,8 +7,11 @@ const router = express.Router();
 export const settingRoutes = router
 
 router.post('/1', verifyToken, getChart1);
+
 router.post('/2', verifyToken, getChart2)
+
 router.post('/3', verifyToken, getChart3)
+
 router.post('/4', verifyToken, getChart4)
 
 export const chartsRoutes = router
