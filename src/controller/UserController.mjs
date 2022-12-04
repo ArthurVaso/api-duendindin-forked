@@ -73,24 +73,24 @@ export const inactivatedUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         
+        const setting = await Setting.update(req.body, {
+            where: {
+                usuarioID: req.params.id
+            }
+        })
+     
+        delete req.body.id;
+        delete req.body.email;
+
         const user = await User.update(req.body, {
             where: {
                 id: req.params.id
             }
         })
 
-        const setting = await Setting.update(req.body, {
-            where: {
-                usuarioID: req.params.id
-            }
-        })
+        console.log(setting[0])
 
-        const userReturn = {
-            ...user,
-            ...setting
-        }
-
-        return user >= 1 ? res.status(200).json(userReturn) : res.status(500).json({ mensagem: 'Ocorreu um erro ao tentar atualizar o usuário' })
+        return res.status(200).json({ mensagem: "Usuário atualizado com sucesso!" });
     } catch (err) {
         return res.status(500).json({ mensagem: err.message })
     }
@@ -118,7 +118,7 @@ export const getAllUsers = async (req, res) => {
             where: {
               ativo: true
             },
-            attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
+            attributes: ['id','nome','email','data_nascimento', 'cep', 'cidade','estado','ativo' ]
           });
         return user !== null ? res.status(200).json(user) : res.status(404).json({ mensagem: "Não foram encontrados Usuários" })
     } catch (err) {
@@ -171,7 +171,7 @@ export const getUsersWithTheirsSettingsById = async (req, res) => {
                 id: req.params.id
             },
             include: Setting,
-            attributes: ['id','nome','email','data_nascimento','cidade','estado','ativo' ]
+            attributes: ['id','nome','email','data_nascimento', 'cep', 'cidade','estado','ativo' ]
         })
         return user !== null ? res.status(200).json(user) : res.status(404).json({ mensagem: "Usuário não encontrado" })
     } catch (err) {
